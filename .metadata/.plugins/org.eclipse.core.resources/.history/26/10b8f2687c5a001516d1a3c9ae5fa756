@@ -1,0 +1,7 @@
+package xml_parse;
+
+public class Author {
+	String author;
+	String pubTitle;
+	
+}

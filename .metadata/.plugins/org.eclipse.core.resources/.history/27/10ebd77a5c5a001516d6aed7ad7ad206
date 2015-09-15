@@ -1,0 +1,18 @@
+package xml_parse;
+
+import java.net.URL;
+
+public class Publication {
+	 String key;
+	 String author;
+	 String title;
+	 String pages;
+	 int year;
+	 int volume;
+	 String journal;
+	 int number;
+	 String url;
+	 URL ee;
+	 
+
+}

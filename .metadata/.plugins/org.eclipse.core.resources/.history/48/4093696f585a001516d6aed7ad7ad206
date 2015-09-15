@@ -1,0 +1,27 @@
+package xml_process;
+
+import java.io.*;
+public class XML_Process {
+	//take 1000 record of xml file
+	public static void main(String[] args){
+		try{
+		BufferedReader br = new BufferedReader(new InputStreamReader (new FileInputStream("dblp2.xml")));
+		String output = "";
+		String temp;
+		int count=0;
+		while((temp=br.readLine())!=null){
+			if (temp.startsWith("<article")){
+				count++;
+			}
+			if(count ==1000)
+				break;
+			output=output.concat(temp);
+		}
+			
+		
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+}

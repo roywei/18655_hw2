@@ -1,0 +1,60 @@
+package db_Util;
+
+import java.sql.Connection;
+import java.sql.Statement;
+
+public class DBCreate {
+	DBManager manager;
+	Connection conn;
+	public DBCreate(){
+		manager= new DBManager();
+		conn = manager.connect();
+		//create database and table
+
+	}
+	public void createTable(){
+		try{
+			Statement stmt = conn.createStatement();
+
+			String sql1 = "DROP DATABASE IF EXISTS dblp;";
+			String sql2 = "CREATE DATABASE dblp;";
+			String sql3 = "USE dblp;";
+			String createPubTable1 = "DROP TABLE IF EXISTS publication;";
+			String createPubTable2 = "CREATE TABLE publication (id VARCHAR(100) PRIMARY KEY NOT NULL,"+
+					"title  VARCHAR(500) NOT NULL,"+
+					"author VARCHAR(500) NOT NULL,"+
+					"type VARCHAR(50) NOT NULL,"+
+					"editor VARCHAR(100) DEFAULT \"N.A.\","+
+					"pages VARCHAR(50) DEFAULT \"N.A.\","+
+					"year VARCHAR(50) DEFAULT \"N.A.\","+
+					"volume VARCHAR(50) DEFAULT \"N.A.\","+
+					"journal VARCHAR(500) DEFAULT \"N.A.\","+
+					"number VARCHAR(50) DEFAULT \"N.A.\","+
+					"url VARCHAR(500) DEFAULT \"N.A.\","+
+					"ee VARCHAR(500) DEFAULT \"N.A.\","+
+					"cdrom VARCHAR(100) DEFAULT \"N.A.\","+
+					"publisher VARCHAR(100) DEFAULT \"N.A.\","+
+					"booktitle VARCHAR(100) DEFAULT \"N.A.\","+
+					"crossref VARCHAR(100) DEFAULT \"N.A.\","+
+					"address VARCHAR(100) DEFAULT \"N.A.\","+
+					"isbn VARCHAR(100) DEFAULT \"N.A.\","+
+					"series VARCHAR(100) DEFAULT \"N.A.\","+
+					"school VARCHAR(100) DEFAULT \"N.A.\","+
+					"chapter VARCHAR(100) DEFAULT \"N.A.\");";
+			String createTable3 = "DROP TABLE IF EXISTS authorInfo;";
+			String createTable4 = "CREATE TABLE authorInfo (id VARCHAR(100) NOT NULL, name VARCHAR(100) NOT NULL);";
+			stmt.addBatch(sql1);
+			stmt.addBatch(sql2);
+			stmt.addBatch(sql3);
+			stmt.addBatch(createPubTable1);
+			stmt.addBatch(createPubTable2);
+			//stmt.addBatch(createTable3);
+			//stmt.addBatch(createTable4);
+			stmt.executeBatch();
+			stmt.executeUpdate(createTable3);
+			stmt.executeUpdate(createTable4);
+			if (stmt != null) { stmt.close(); }
+		}catch(Exception e){
+		}
+	}
+}

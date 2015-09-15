@@ -1,0 +1,29 @@
+package xml_parse;
+
+public class Author {
+	String author;
+	String pubKey;
+
+	public Author(String author, String pubKey){
+		this.author = author;
+		this.pubKey = pubKey;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getPubKey() {
+		return pubKey;
+	}
+
+	public void setPubKey(String pubKey) {
+		this.pubKey = pubKey;
+	}
+
+
+}

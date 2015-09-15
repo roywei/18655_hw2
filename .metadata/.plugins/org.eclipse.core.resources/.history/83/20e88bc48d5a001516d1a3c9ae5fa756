@@ -1,0 +1,33 @@
+package xml_parse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Publication {
+	String type;
+	String key;
+	ArrayList<String> author= new ArrayList<String>();
+	String editor;
+	String title;
+	String booktitle;
+	String pages;
+	String year;
+	String address;
+	String volume;
+	String journal;
+	String number;
+	String month;
+	String url;
+	String ee;
+	String cdrom;
+	String publisher;     
+	String note;     
+	String crossref;     
+	String isbn;     
+	String series;     
+	String school;     
+	String chapter;     
+	
+
+
+}

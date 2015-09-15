@@ -1,0 +1,155 @@
+package xml_parse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import db_Util.*;
+
+public class XMLParser {
+	public static void main(String[] args) throws Exception {
+		//Get the DOM Builder Factory
+		DocumentBuilderFactory factory = 
+				DocumentBuilderFactory.newInstance();
+
+		//Get the DOM Builder
+		DocumentBuilder builder = factory.newDocumentBuilder();
+
+		//Load and Parse the XML document
+		//document contains the complete XML as a Tree.
+
+		Document document = 
+				builder.parse(ClassLoader.getSystemResourceAsStream("processed_dblp.xml"));
+
+		List<Publication> pubList = new ArrayList<Publication>();
+		List<Author> authorList = new ArrayList<Author>();
+
+		//Iterating through the nodes and extracting the data.
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+
+		for (int i = 0; i < nodeList.getLength(); i++) {
+
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				Publication pub = new Publication();
+				//get the type of publicaiton
+				pub.type = node.getNodeName();
+
+				//get key value of publication
+				pub.key = node.getAttributes().
+						getNamedItem("key").getNodeValue();
+
+				NodeList childNodes = node.getChildNodes();
+				for (int j = 0; j < childNodes.getLength(); j++) {
+					Node cNode = childNodes.item(j);
+
+					//Identifying the child tag of article encountered. 
+					if (cNode instanceof Element) {
+						String content = cNode.getLastChild().
+								getTextContent().trim();
+						switch (cNode.getNodeName()) {
+						case "author":
+							NodeList authorNodes = cNode.getChildNodes();
+							for(int k = 0; k < authorNodes.getLength(); k++){
+								Node aNode = authorNodes.item(k);
+								pub.author.add(aNode.getTextContent().trim());
+							}
+							break;
+						case "editor":
+							pub.editor = content;
+							break;
+						case "title":
+							pub.title = content;
+							break;
+						case "booktitle":
+							pub.booktitle = content;
+							break;
+						case "pages":
+							pub.pages = content;
+							break;            
+						case "year":
+							pub.year = content;
+							break;
+						case "address":
+							pub.address = content;
+							break;
+						case "volume":
+							pub.volume = content;
+							break;
+						case "journal":
+							pub.journal = content;
+							break;
+						case "number":
+							pub.number = content;
+							break;
+						case "month":
+							pub.month = content;
+							break;
+						case "url":
+							pub.url = content;
+							break;
+						case "ee":
+							pub.ee = content;
+							break;
+						case "cdrom":
+							pub.cdrom = content;
+							break;
+						case "publisher":
+							pub.publisher = content;
+							break;
+						case "note":
+							pub.note = content;
+							break;
+						case "crossref":
+							pub.crossref = content;
+							break;
+						case "isbn":
+							pub.isbn = content;
+							break;
+						case "series":
+							pub.series = content;
+							break;
+						case "school":
+							pub.school = content;
+							break;
+						case "chapter":
+							pub.chapter = content;
+
+						}
+					}
+				}
+				pubList.add(pub);
+				for(int l=0; l<pub.author.size(); l++){
+					authorList.add(new Author(pub.author.get(l),pub.key));
+				}	      
+			}
+
+		}
+
+		//test print publicaiton  and author list populated.
+		for (Publication pub : pubList) {
+			System.out.println(pub.author);
+		}
+		for(Author a : authorList){
+			System.out.println(a.author);	    	
+			System.out.println(a.pubKey);
+
+		}
+
+		//create db and table
+		DBCreate create = new DBCreate();
+		create.createTable();
+		//Insert Data into database
+		DBInsert insert = new DBInsert();
+		insert.insertPub(pubList);
+		insert.insertAuth(authorList);
+	}
+
+}

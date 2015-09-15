@@ -1,0 +1,359 @@
+package db_Util;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+public class DBQuery {
+
+	DBManager manager;
+	Connection conn;
+
+	public DBQuery() {
+		/**
+		 * create new database manager to connect when object is constructed
+		 */
+		manager = new DBManager();
+		conn = manager.connect();
+	}
+
+	/**
+	 * fine the co-authors of given author name
+	 * @param author's name
+	 * @return return a string of all co-authors
+	 * @throws Exception
+	 */
+	public String findCoAuthor(String name) throws Exception {
+
+		Statement stmt = conn.createStatement();
+		String useDB = "USE dblp;";
+		stmt.executeUpdate(useDB);
+		String sql = "SELECT id FROM authorInfo WHERE name = \"" + name + "\";";
+		ResultSet rs = stmt.executeQuery(sql);
+		ArrayList<String> id = new ArrayList<String>();
+		Set<String> coAuthor = new HashSet<>();
+		String ret = "Co-Authors of ".concat(name).concat(":\n");
+		while (rs.next()) {
+			id.add(rs.getString("id"));
+
+		}
+		if (id.size() == 0) {
+			return "No such author";
+		}
+		for (String s : id) {
+			sql = "SELECT name FROM authorInfo WHERE id=\"" + s + "\";";
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				coAuthor.add(rs.getString("name"));
+			}
+
+		}
+		coAuthor.remove(name);
+		for (String s : coAuthor) {
+			ret = ret.concat(s + "\n");
+		}
+
+		if (ret.equals("Co-Authors of ".concat(name).concat(":\n")))
+			ret = "No Co-Author found";
+
+		if (stmt != null) {
+			stmt.close();
+		}
+		return ret;
+	}
+
+	/**
+	 * given paper tile, find publication details
+	 * @param paper title
+	 * @return String of publication details
+	 * @throws Exception
+	 */
+	public String findPaper(String title) throws Exception {
+		Statement stmt = conn.createStatement();
+		String useDB = "USE dblp;";
+		stmt.executeUpdate(useDB);
+		String ret = "Publication Details:\n";
+		String sql = "SELECT * FROM publication WHERE title=\"" + title.replace("\"", "\\\"") + "\";"; // escape
+		// double
+		// quotes
+		// in
+		// title
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			// if not relevant fields, do NOT display
+			if (!rs.getString("type").equals(""))
+				ret = ret.concat("type: ").concat(rs.getString("type")).concat("\n");
+			if (!rs.getString("title").equals(""))
+				ret = ret.concat("title: ").concat(rs.getString("title")).concat("\n");
+			if (!rs.getString("author").equals(""))
+				ret = ret.concat("author: ").concat(rs.getString("author")).concat("\n");
+			if (!rs.getString("editor").equals(""))
+				ret = ret.concat("editor: ").concat(rs.getString("editor")).concat("\n");
+			if (!rs.getString("pages").equals(""))
+				ret = ret.concat("pages: ").concat(rs.getString("pages")).concat("\n");
+			if (!rs.getString("year").equals(""))
+				ret = ret.concat("year: ").concat(rs.getString("year")).concat("\n");
+			if (!rs.getString("volume").equals(""))
+				ret = ret.concat("volume: ").concat(rs.getString("volume")).concat("\n");
+			if (!rs.getString("journal").equals(""))
+				ret = ret.concat("journal: ").concat(rs.getString("journal")).concat("\n");
+			if (!rs.getString("number").equals(""))
+				ret = ret.concat("number: ").concat(rs.getString("number")).concat("\n");
+			if (!rs.getString("url").equals(""))
+				ret = ret.concat("url: ").concat(rs.getString("url")).concat("\n");
+			if (!rs.getString("ee").equals(""))
+				ret = ret.concat("ee: ").concat(rs.getString("ee")).concat("\n");
+			if (!rs.getString("cdrom").equals(""))
+				ret = ret.concat("cdrom: ").concat(rs.getString("cdrom")).concat("\n");
+			if (!rs.getString("publisher").equals(""))
+				ret = ret.concat("publisher: ").concat(rs.getString("publisher")).concat("\n");
+			if (!rs.getString("booktitle").equals(""))
+				ret = ret.concat("booktitle: ").concat(rs.getString("booktitle")).concat("\n");
+			if (!rs.getString("crossref").equals(""))
+				ret = ret.concat("crossref: ").concat(rs.getString("crossref")).concat("\n");
+			if (!rs.getString("address").equals(""))
+				ret = ret.concat("address: ").concat(rs.getString("address")).concat("\n");
+			if (!rs.getString("isbn").equals(""))
+				ret = ret.concat("isbn: ").concat(rs.getString("isbn")).concat("\n");
+			if (!rs.getString("series").equals(""))
+				ret = ret.concat("series: ").concat(rs.getString("series")).concat("\n");
+			if (!rs.getString("school").equals(""))
+				ret = ret.concat("school: ").concat(rs.getString("school")).concat("\n");
+			if (!rs.getString("school").equals(""))
+				ret = ret.concat("chapter: ").concat(rs.getString("chapter")).concat("\n");
+
+		}
+		if (ret.equals("Publication Details:\n"))
+			return "Publication Not Found";
+		if (stmt != null) {
+			stmt.close();
+		}
+
+		return ret;
+	}
+
+	public String findAuthorRecord(String name) throws Exception {
+		Statement stmt = conn.createStatement();
+		String useDB = "USE dblp;";
+		stmt.executeUpdate(useDB);
+		String sql = "SELECT id FROM authorInfo WHERE name = \"" + name + "\";";
+		ResultSet rs = stmt.executeQuery(sql);
+		String ret = "All publications of " + name + ":\n";
+		ArrayList<String> id = new ArrayList<String>();
+		while (rs.next()) {
+			id.add(rs.getString("id"));
+		}
+		for (String s : id) {
+			sql = "SELECT * FROM publication WHERE id=\"" + s + "\";";
+			ResultSet rs2 = stmt.executeQuery(sql);
+			while (rs2.next()) {
+				if (!rs2.getString("type").equals(""))
+					ret = ret.concat("type: ").concat(rs2.getString("type")).concat("\n");
+				if (!rs2.getString("title").equals(""))
+					ret = ret.concat("title: ").concat(rs2.getString("title")).concat("\n");
+				if (!rs2.getString("author").equals(""))
+					ret = ret.concat("author: ").concat(rs2.getString("author")).concat("\n");
+				if (!rs2.getString("editor").equals(""))
+					ret = ret.concat("editor: ").concat(rs2.getString("editor")).concat("\n");
+				if (!rs2.getString("pages").equals(""))
+					ret = ret.concat("pages: ").concat(rs2.getString("pages")).concat("\n");
+				if (!rs2.getString("year").equals(""))
+					ret = ret.concat("year: ").concat(rs2.getString("year")).concat("\n");
+				if (!rs2.getString("volume").equals(""))
+					ret = ret.concat("volume: ").concat(rs2.getString("volume")).concat("\n");
+				if (!rs2.getString("journal").equals(""))
+					ret = ret.concat("journal: ").concat(rs2.getString("journal")).concat("\n");
+				if (!rs2.getString("number").equals(""))
+					ret = ret.concat("number: ").concat(rs2.getString("number")).concat("\n");
+				if (!rs2.getString("url").equals(""))
+					ret = ret.concat("url: ").concat(rs2.getString("url")).concat("\n");
+				if (!rs2.getString("ee").equals(""))
+					ret = ret.concat("ee: ").concat(rs2.getString("ee")).concat("\n");
+				if (!rs2.getString("cdrom").equals(""))
+					ret = ret.concat("cdrom: ").concat(rs2.getString("cdrom")).concat("\n");
+				if (!rs2.getString("publisher").equals(""))
+					ret = ret.concat("publisher: ").concat(rs2.getString("publisher")).concat("\n");
+				if (!rs2.getString("booktitle").equals(""))
+					ret = ret.concat("booktitle: ").concat(rs2.getString("booktitle")).concat("\n");
+				if (!rs2.getString("crossref").equals(""))
+					ret = ret.concat("crossref: ").concat(rs2.getString("crossref")).concat("\n");
+				if (!rs2.getString("address").equals(""))
+					ret = ret.concat("address: ").concat(rs2.getString("address")).concat("\n");
+				if (!rs2.getString("isbn").equals(""))
+					ret = ret.concat("isbn: ").concat(rs2.getString("isbn")).concat("\n");
+				if (!rs2.getString("series").equals(""))
+					ret = ret.concat("series: ").concat(rs2.getString("series")).concat("\n");
+				if (!rs2.getString("school").equals(""))
+					ret = ret.concat("school: ").concat(rs2.getString("school")).concat("\n");
+				if (!rs2.getString("school").equals(""))
+					ret = ret.concat("chapter: ").concat(rs2.getString("chapter")).concat("\n");
+				ret = ret.concat("\n");
+			}
+		}
+
+		if (ret.equals("All publications of " + name + ":\n"))
+			return "Record of " + name + " not found";
+		if (stmt != null) {
+			stmt.close();
+		}
+		return ret;
+	}
+
+	public String findKeyword(String keyword) throws Exception {
+		Statement stmt = conn.createStatement();
+		String useDB = "USE dblp;";
+		stmt.executeUpdate(useDB);
+		String sql;
+		String ret = "Search Result of \"" + keyword + "\":\n";
+		String[] words = keyword.split(",");
+		Set<String> id = new HashSet<>();
+		for (String s : words) {
+			sql = "SELECT * FROM publication;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				if (rs.getString("title").contains(s))
+					id.add(rs.getString("id"));
+			}
+		}
+
+		for (String s : id) {
+			sql = "SELECT * FROM publication WHERE id=\"" + s + "\";";
+			ResultSet rs2 = stmt.executeQuery(sql);
+			while (rs2.next()) {
+				if (!rs2.getString("type").equals(""))
+					ret = ret.concat("type: ").concat(rs2.getString("type")).concat("\n");
+				if (!rs2.getString("title").equals(""))
+					ret = ret.concat("title: ").concat(rs2.getString("title")).concat("\n");
+				if (!rs2.getString("author").equals(""))
+					ret = ret.concat("author: ").concat(rs2.getString("author")).concat("\n");
+				if (!rs2.getString("editor").equals(""))
+					ret = ret.concat("editor: ").concat(rs2.getString("editor")).concat("\n");
+				if (!rs2.getString("pages").equals(""))
+					ret = ret.concat("pages: ").concat(rs2.getString("pages")).concat("\n");
+				if (!rs2.getString("year").equals(""))
+					ret = ret.concat("year: ").concat(rs2.getString("year")).concat("\n");
+				if (!rs2.getString("volume").equals(""))
+					ret = ret.concat("volume: ").concat(rs2.getString("volume")).concat("\n");
+				if (!rs2.getString("journal").equals(""))
+					ret = ret.concat("journal: ").concat(rs2.getString("journal")).concat("\n");
+				if (!rs2.getString("number").equals(""))
+					ret = ret.concat("number: ").concat(rs2.getString("number")).concat("\n");
+				if (!rs2.getString("url").equals(""))
+					ret = ret.concat("url: ").concat(rs2.getString("url")).concat("\n");
+				if (!rs2.getString("ee").equals(""))
+					ret = ret.concat("ee: ").concat(rs2.getString("ee")).concat("\n");
+				if (!rs2.getString("cdrom").equals(""))
+					ret = ret.concat("cdrom: ").concat(rs2.getString("cdrom")).concat("\n");
+				if (!rs2.getString("publisher").equals(""))
+					ret = ret.concat("publisher: ").concat(rs2.getString("publisher")).concat("\n");
+				if (!rs2.getString("booktitle").equals(""))
+					ret = ret.concat("booktitle: ").concat(rs2.getString("booktitle")).concat("\n");
+				if (!rs2.getString("crossref").equals(""))
+					ret = ret.concat("crossref: ").concat(rs2.getString("crossref")).concat("\n");
+				if (!rs2.getString("address").equals(""))
+					ret = ret.concat("address: ").concat(rs2.getString("address")).concat("\n");
+				if (!rs2.getString("isbn").equals(""))
+					ret = ret.concat("isbn: ").concat(rs2.getString("isbn")).concat("\n");
+				if (!rs2.getString("series").equals(""))
+					ret = ret.concat("series: ").concat(rs2.getString("series")).concat("\n");
+				if (!rs2.getString("school").equals(""))
+					ret = ret.concat("school: ").concat(rs2.getString("school")).concat("\n");
+				if (!rs2.getString("school").equals(""))
+					ret = ret.concat("chapter: ").concat(rs2.getString("chapter")).concat("\n");
+				ret = ret.concat("\n");
+			}
+
+		}
+		if (ret.equals("Search Result of \"" + keyword + "\":\n"))
+			return "No Result";
+		if (stmt != null) {
+			stmt.close();
+		}
+		return ret;
+	}
+
+	public String findTwoAuthors(String name1, String name2) throws Exception {
+		Statement stmt = conn.createStatement();
+		String useDB = "USE dblp;";
+		stmt.executeUpdate(useDB);
+		ArrayList<String> id1 = new ArrayList<>();
+		ArrayList<String> id2 = new ArrayList<>();
+		String ret = name1 + " and " + name2 + " have co-authored :\n";
+
+		String sql = "SELECT id FROM authorInfo WHERE name=\"" + name1 + "\";";
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			id1.add(rs.getString("id"));
+		}
+		for (String i : id1) {
+			sql = "SELECT id FROM authorInfo WHERE id = \"" + i + "\" AND name =\"" + name2 + "\";";
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				if (!rs.getString("id").equals(null))
+					id2.add(rs.getString("id"));
+			}
+		}
+
+		if (id2.size() == 0)
+			return name1 + " and " + name2 + " have NO co-authored publications.\n";
+		else {
+			for (String s : id2) {
+				sql = "SELECT * FROM publication WHERE id=\"" + s + "\";";
+				ResultSet rs2 = stmt.executeQuery(sql);
+				while (rs2.next()) {
+					if (!rs2.getString("type").equals(""))
+						ret = ret.concat("type: ").concat(rs2.getString("type")).concat("\n");
+					if (!rs2.getString("title").equals(""))
+						ret = ret.concat("title: ").concat(rs2.getString("title")).concat("\n");
+					if (!rs2.getString("author").equals(""))
+						ret = ret.concat("author: ").concat(rs2.getString("author")).concat("\n");
+					if (!rs2.getString("editor").equals(""))
+						ret = ret.concat("editor: ").concat(rs2.getString("editor")).concat("\n");
+					if (!rs2.getString("pages").equals(""))
+						ret = ret.concat("pages: ").concat(rs2.getString("pages")).concat("\n");
+					if (!rs2.getString("year").equals(""))
+						ret = ret.concat("year: ").concat(rs2.getString("year")).concat("\n");
+					if (!rs2.getString("volume").equals(""))
+						ret = ret.concat("volume: ").concat(rs2.getString("volume")).concat("\n");
+					if (!rs2.getString("journal").equals(""))
+						ret = ret.concat("journal: ").concat(rs2.getString("journal")).concat("\n");
+					if (!rs2.getString("number").equals(""))
+						ret = ret.concat("number: ").concat(rs2.getString("number")).concat("\n");
+					if (!rs2.getString("url").equals(""))
+						ret = ret.concat("url: ").concat(rs2.getString("url")).concat("\n");
+					if (!rs2.getString("ee").equals(""))
+						ret = ret.concat("ee: ").concat(rs2.getString("ee")).concat("\n");
+					if (!rs2.getString("cdrom").equals(""))
+						ret = ret.concat("cdrom: ").concat(rs2.getString("cdrom")).concat("\n");
+					if (!rs2.getString("publisher").equals(""))
+						ret = ret.concat("publisher: ").concat(rs2.getString("publisher")).concat("\n");
+					if (!rs2.getString("booktitle").equals(""))
+						ret = ret.concat("booktitle: ").concat(rs2.getString("booktitle")).concat("\n");
+					if (!rs2.getString("crossref").equals(""))
+						ret = ret.concat("crossref: ").concat(rs2.getString("crossref")).concat("\n");
+					if (!rs2.getString("address").equals(""))
+						ret = ret.concat("address: ").concat(rs2.getString("address")).concat("\n");
+					if (!rs2.getString("isbn").equals(""))
+						ret = ret.concat("isbn: ").concat(rs2.getString("isbn")).concat("\n");
+					if (!rs2.getString("series").equals(""))
+						ret = ret.concat("series: ").concat(rs2.getString("series")).concat("\n");
+					if (!rs2.getString("school").equals(""))
+						ret = ret.concat("school: ").concat(rs2.getString("school")).concat("\n");
+					if (!rs2.getString("school").equals(""))
+						ret = ret.concat("chapter: ").concat(rs2.getString("chapter")).concat("\n");
+					ret = ret.concat("\n");
+				}
+
+			}
+		}
+
+		if (stmt != null) {
+			stmt.close();
+		}
+		return ret;
+	}
+
+}

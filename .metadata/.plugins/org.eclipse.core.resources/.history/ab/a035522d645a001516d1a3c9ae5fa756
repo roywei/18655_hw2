@@ -1,0 +1,17 @@
+package xml_parse;
+
+
+public class Publication {
+	 String key;
+	 String author;
+	 String title;
+	 String pages;
+	 String year;
+	 String volume;
+	 String journal;
+	 String number;
+	 String url;
+	 String ee;
+	 
+
+}

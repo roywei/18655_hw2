@@ -1,0 +1,34 @@
+package xml_parse;
+
+
+public class Publication {
+	String type;
+	String key;
+	String author;
+	String editor;
+	String title;
+	String booktitle;
+	String pages;
+	String year;
+	String address;
+	String volume;
+	String journal;
+	String number;
+	String month;
+	String url;
+	String ee;
+	String cdrom;
+	String publisher;     
+	String note;     
+	String crossref;     
+	String isbn;     
+	String series;     
+	String school;     
+	String chapter;     
+	
+	public void generateAuthor(){
+		
+	}
+
+
+}

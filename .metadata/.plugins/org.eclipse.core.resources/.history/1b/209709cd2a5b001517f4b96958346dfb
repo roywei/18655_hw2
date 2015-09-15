@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://me.org" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://me.org" xmlns:intf="http://me.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://me.org" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="webPaper">
+    <complexType>
+     <sequence>
+      <element name="title" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webPaperResponse">
+    <complexType>
+     <sequence>
+      <element name="webPaperReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webKeyword">
+    <complexType>
+     <sequence>
+      <element name="keyword" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webKeywordResponse">
+    <complexType>
+     <sequence>
+      <element name="webKeywordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webAuthorRecord">
+    <complexType>
+     <sequence>
+      <element name="name" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webAuthorRecordResponse">
+    <complexType>
+     <sequence>
+      <element name="webAuthorRecordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webCoAuthor">
+    <complexType>
+     <sequence>
+      <element name="name" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webCoAuthorResponse">
+    <complexType>
+     <sequence>
+      <element name="webCoAuthorReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webTwoAuthor">
+    <complexType>
+     <sequence>
+      <element name="name1" type="xsd:string"/>
+      <element name="name2" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="webTwoAuthorResponse">
+    <complexType>
+     <sequence>
+      <element name="webTwoAuthorReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="webAuthorRecordResponse">
+
+      <wsdl:part element="impl:webAuthorRecordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webCoAuthorRequest">
+
+      <wsdl:part element="impl:webCoAuthor" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webKeywordRequest">
+
+      <wsdl:part element="impl:webKeyword" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webAuthorRecordRequest">
+
+      <wsdl:part element="impl:webAuthorRecord" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webCoAuthorResponse">
+
+      <wsdl:part element="impl:webCoAuthorResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webTwoAuthorRequest">
+
+      <wsdl:part element="impl:webTwoAuthor" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webPaperRequest">
+
+      <wsdl:part element="impl:webPaper" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webKeywordResponse">
+
+      <wsdl:part element="impl:webKeywordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webPaperResponse">
+
+      <wsdl:part element="impl:webPaperResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="webTwoAuthorResponse">
+
+      <wsdl:part element="impl:webTwoAuthorResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="WebQuery">
+
+      <wsdl:operation name="webPaper">
+
+         <wsdl:input message="impl:webPaperRequest" name="webPaperRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:webPaperResponse" name="webPaperResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webKeyword">
+
+         <wsdl:input message="impl:webKeywordRequest" name="webKeywordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:webKeywordResponse" name="webKeywordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webAuthorRecord">
+
+         <wsdl:input message="impl:webAuthorRecordRequest" name="webAuthorRecordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:webAuthorRecordResponse" name="webAuthorRecordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webCoAuthor">
+
+         <wsdl:input message="impl:webCoAuthorRequest" name="webCoAuthorRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:webCoAuthorResponse" name="webCoAuthorResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webTwoAuthor">
+
+         <wsdl:input message="impl:webTwoAuthorRequest" name="webTwoAuthorRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:webTwoAuthorResponse" name="webTwoAuthorResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="WebQuerySoapBinding" type="impl:WebQuery">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="webPaper">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="webPaperRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="webPaperResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webKeyword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="webKeywordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="webKeywordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webAuthorRecord">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="webAuthorRecordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="webAuthorRecordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webCoAuthor">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="webCoAuthorRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="webCoAuthorResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="webTwoAuthor">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="webTwoAuthorRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="webTwoAuthorResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="WebQueryService">
+
+      <wsdl:port binding="impl:WebQuerySoapBinding" name="WebQuery">
+
+         <wsdlsoap:address location="http://localhost:8080/Lab2_Web/services/WebQuery"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

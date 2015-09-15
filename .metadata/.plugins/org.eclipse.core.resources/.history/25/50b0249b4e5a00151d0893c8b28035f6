@@ -1,0 +1,20 @@
+package xml_process;
+import javax.xml.transform.*;
+import java.io.*;
+
+public class XML_Process {
+	//take 1000 record of xml file
+	public static void main(String[] args){
+		Source xmlInput = new StreamSource(new File("c:/path/to/input.xml"));
+		Source xsl = new StreamSource(new File("c:/path/to/file.xsl"));
+		Result xmlOutput = new StreamResult(new File("c:/path/to/output.xml"));
+
+		try {
+		    Transformer transformer = TransformerFactory.newInstance().newTransformer(xsl);
+		    transformer.transform(xmlInput, xmlOutput);
+		} catch (TransformerException e) {
+		    // Handle.
+		}
+	}
+
+}

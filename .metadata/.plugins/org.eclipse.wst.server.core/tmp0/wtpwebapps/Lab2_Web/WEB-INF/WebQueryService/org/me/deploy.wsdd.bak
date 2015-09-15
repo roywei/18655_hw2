@@ -1,0 +1,42 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from WebQueryService WSDL service -->
+
+  <service name="WebQuery" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://me.org"/>
+      <parameter name="wsdlServiceElement" value="WebQueryService"/>
+      <parameter name="schemaQualified" value="http://me.org"/>
+      <parameter name="wsdlServicePort" value="WebQuery"/>
+      <parameter name="className" value="org.me.WebQuerySoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="WebQuery"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="webPaper" qname="operNS:webPaper" xmlns:operNS="http://me.org" returnQName="retNS:webPaperReturn" xmlns:retNS="http://me.org" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:title" xmlns:pns="http://me.org" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="webKeyword" qname="operNS:webKeyword" xmlns:operNS="http://me.org" returnQName="retNS:webKeywordReturn" xmlns:retNS="http://me.org" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:keyword" xmlns:pns="http://me.org" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="webAuthorRecord" qname="operNS:webAuthorRecord" xmlns:operNS="http://me.org" returnQName="retNS:webAuthorRecordReturn" xmlns:retNS="http://me.org" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:name" xmlns:pns="http://me.org" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="webCoAuthor" qname="operNS:webCoAuthor" xmlns:operNS="http://me.org" returnQName="retNS:webCoAuthorReturn" xmlns:retNS="http://me.org" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:name" xmlns:pns="http://me.org" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="webTwoAuthor" qname="operNS:webTwoAuthor" xmlns:operNS="http://me.org" returnQName="retNS:webTwoAuthorReturn" xmlns:retNS="http://me.org" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:name1" xmlns:pns="http://me.org" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:name2" xmlns:pns="http://me.org" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="webAuthorRecord webKeyword webTwoAuthor webCoAuthor webPaper"/>
+
+  </service>
+</deployment>

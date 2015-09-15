@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from WebQueryService WSDL service -->
+
+  <service name="WebQuery" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://me.org"/>
+      <parameter name="wsdlServiceElement" value="WebQueryService"/>
+      <parameter name="schemaQualified" value="http://me.org"/>
+      <parameter name="wsdlServicePort" value="WebQuery"/>
+      <parameter name="className" value="org.me.WebQuery"/>
+      <parameter name="wsdlPortType" value="WebQuery"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://me.org" xmlns:retNS="http://me.org" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="add" qname="operNS:add" returnQName="retNS:addReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://me.org" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:i" type="tns:int"/>
+        <parameter xmlns:pns="http://me.org" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:j" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://me.org" xmlns:retNS="http://me.org" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="operation" qname="operNS:operation" returnQName="retNS:operationReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://me.org" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:param" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="add operation"/>
+
+  </service>
+</deployment>

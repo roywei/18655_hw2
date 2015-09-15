@@ -1,0 +1,11 @@
+package driver;
+
+import xml_process.XML_Process;
+
+public class TestCase {
+	//process xml to take 1000 records
+	XML_Process process = new XML_Process();
+	process.process_xml();
+	
+
+}

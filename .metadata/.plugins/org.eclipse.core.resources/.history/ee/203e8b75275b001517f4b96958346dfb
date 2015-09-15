@@ -1,0 +1,33 @@
+package org.me;
+
+import javax.jws.WebService;
+
+import db_Util.DBQuery;
+
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+
+@WebService()
+public class WebQuery {
+
+	
+		@WebMethod(action = "webCoAuthor")
+		public String webCoAuthor(@WebParam(name = "name") String name) {
+			// implement the web service operation here
+			try{
+				DBQuery query = new DBQuery();
+				return query.findCoAuthor(name);
+			}catch(Exception e){
+				
+			}
+			
+		}
+
+		@WebMethod(action = "add")
+		public int add(@WebParam(name = "i") int i, @WebParam(name = "j") int j) {
+			int k = i + j;
+			return k;
+		}
+	
+
+}

@@ -1,0 +1,17 @@
+package driver;
+
+import xml_process.XML_Process;
+import xml_parse.*;
+
+public class TestCase {
+	//process xml to take 1000 records
+	
+	public static void main(Stringp[] args) throws Exception(){
+	XML_Process process = new XML_Process();
+	process.process_xml();
+	
+	XMLParser parser = new XMLParser();
+	parser.parse_xml();
+	}
+
+}

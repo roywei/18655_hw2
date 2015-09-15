@@ -1,0 +1,8 @@
+package db_Util;
+
+public class Snippet {
+	public static void main(String[] args) {
+		platform:/resource/Lab2_Web/WebContent/wsdl/WebQuery.wsdl
+	}
+}
+
